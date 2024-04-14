@@ -1,5 +1,6 @@
 ## Self-help
 
+- MicroPython docs: https://docs.micropython.org/en/latest/
 - ChatGPT convo: https://chat.openai.com/c/e57efd50-3add-45cd-8e25-4bfa52feed74
 - Tutorial videos:
   - Kit guy: https://www.youtube.com/playlist?list=PLGs0VKk2DiYz8js1SJog21cDhkBqyAhC5
@@ -30,7 +31,13 @@
   - Show Pico Pin Map
   - ...
 
-## Installing 3rd Party Packages
+## Libraries
+
+### MicroPython libraries
+
+- https://docs.micropython.org/en/latest/library/index.html
+
+### Installing 3rd Party Packages
 
 - must be placed in a root-level "lib" folder (this is where Pico looks for libraries)
 
