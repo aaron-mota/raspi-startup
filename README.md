@@ -19,7 +19,7 @@
 
 ## MicroPico Extension
 
-# MicroPico:
+### MicroPico:
 
 - Configure Project
 - Download project
@@ -34,8 +34,7 @@
 
 - must be placed in a root-level "lib" folder (this is where Pico looks for libraries)
 
-# Find on google
+### Find on google
 
 - `[device] micropython [library-name].py`
   - e.g. `mpu6050 micropython imu.py` (accelerometer) (https://youtu.be/lElb4lydGpU?si=BSEEy_bkr1JaH1Eu&t=139)
-# raspi-startup
