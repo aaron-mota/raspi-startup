@@ -1,17 +1,17 @@
 # from machine import Pin
 import machine
 from utime import sleep
-from convert_reading_pico_potentiometer import convert_reading_pico_potentiometer 
+from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer 
 
 #############  
 # number values = GPIO number
 ############# 
 # ADC = Analog to Digital Converter
-pinADC0_26 = 26
-pinADC1_27 = 27
-pinADC2_28 = 28
+pin26_ADC0 = 26
+pin27_ADC1 = 27
+pin28_ADC2 = 28
 
-potentiometer = machine.ADC(pinADC0_26)
+potentiometer = machine.ADC(pin26_ADC0)
 # ACTUAL (OUTPUT)
 # min: 224 (or less)
 # max: 65535

@@ -1,5 +1,5 @@
-from convert_minMax_actual_to_desired import convert_minMax_actual_to_desired
-from constants import PICO
+from _convert_minMax_actual_to_desired import convert_minMax_actual_to_desired
+from _constants import PICO
 
 def convert_reading_pico_potentiometer(outputValue):    
     minOutputActual = 224
