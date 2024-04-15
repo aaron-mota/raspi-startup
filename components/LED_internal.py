@@ -1,7 +1,8 @@
 from machine import Pin
 from utime import sleep
+from _constants import PIN_LED
 
-pin = Pin("LED", Pin.OUT)
+pin = Pin(PIN_LED, Pin.OUT)
 
 print("LED starts flashing...")
 while True:
