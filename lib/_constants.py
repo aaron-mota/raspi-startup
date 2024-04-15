@@ -35,7 +35,7 @@ PICO = {
 #####
 # Context-specific constants
 #####
-## GPIO
+## GPIO (General Purpose Input/Output)
 PIN_GP0__1 = 0
 PIN_GP1__2 = 1
 PIN_GP2__4 = 2
@@ -63,12 +63,12 @@ PIN_GP26__31_10b = 26
 PIN_GP27__32_9b = 27
 PIN_GP28__34_7b = 28
 
-## ADC
+## ADC (Analog to Digital Converter)
 PIN_ADC0__31_10b = 26
 PIN_ADC1__32_9b = 27
 PIN_ADC2__34_7b = 28
 
-## SPI
+## SPI (Serial Peripheral Interface)
 PIN_SPI0_RX__21_20b = 0
 PIN_SPI0_CSn__22_19b = 1
 PIN_SPI0_SCK__24_17b = 2
@@ -86,7 +86,7 @@ PIN_SPI1_CSn__27_14b = 13
 PIN_SPI1_SCK__29_12b = 14
 PIN_SPI1_TX__31_10b = 15
 
-## I2C
+## I2C (Inter-Integrated Circuit)
 PIN_I2C0_SDA__26_15b = 19
 PIN_I2C0_SCL__27_14b = 20
 PIN_I2C1_SDA__24_17b = 21
@@ -94,20 +94,20 @@ PIN_I2C1_SCL__25_16b = 22
 PIN_I2C1_SDA__31_10b = 26
 PIN_I2C1_SCL__32_9b = 27
 
-## UART
+## UART (Universal Asynchronous Receiver-Transmitter)
 PIN_UART1_TX__21_20b = 0
 PIN_UART1_RX__22_19b = 1
 PIN_UART1_TX__26_15b = 2
 PIN_UART1_RX__27_14b = 3
 
 ## OTHER
-PIN_LED = 'LED'
-PIN_VBUS__40_1b = False
-PIN_VSYS__39_2b = False
-PIN_3V3_EN__37_4b = False
-PIN_3V3_OUT__36_5b = False
-PIN_RUN__30_11b = False
-PIN_GND__3 = False
+PIN_LED = 'LED' # LED (internal component)
+PIN_VBUS__40_1b = False # USB power
+PIN_VSYS__39_2b = False # System power
+PIN_3V3_EN__37_4b = False # 3.3V power (enable)
+PIN_3V3_OUT__36_5b = False # 3.3V power (output)
+PIN_RUN__30_11b = False # Reset (?)
+PIN_GND__3 = False # Ground
 PIN_GND__8 = False
 PIN_GND__13 = False
 PIN_GND__18 = False
