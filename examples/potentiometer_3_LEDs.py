@@ -36,6 +36,7 @@ while True:
 
     except KeyboardInterrupt:
         break
+
 led_red.value(0)
 led_yellow.value(0)
 led_green.value(0)
