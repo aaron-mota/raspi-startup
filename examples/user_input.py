@@ -1,3 +1,18 @@
+from machine import Pin
+from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer
+from _pins import PIN_LED
+
+pinLED = Pin(PIN_LED, Pin.OUT)
+
 while True:
-    CMD = input("What color do you want the LED to be? ")
-    print(CMD)
+    CMD = input("Enter a command (ON/OFF/TOGGLE): ")
+    if CMD == "ON":
+        pinLED.value(1)
+    elif CMD == "OFF":
+        pinLED.value(0)
+    elif CMD == "TOGGLE":
+        pinLED.toggle()
+    else:
+        print("Invalid command.")
+    print("LED state: ", pinLED.value())
+print("Finished.")

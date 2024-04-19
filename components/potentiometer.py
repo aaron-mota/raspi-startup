@@ -1,7 +1,7 @@
 import machine
 from utime import sleep
 from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer
-from _constants import PIN_ADC0__31_10b as PIN_ADC0
+from _pins import PIN_ADC0__31_10b as PIN_ADC0
 
 
 potentiometer = machine.ADC(PIN_ADC0)
