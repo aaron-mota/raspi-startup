@@ -1,5 +1,5 @@
 from machine import Pin
-from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer
+from _convert_output_pico_potentiometer import convert_output_pico_potentiometer
 from _pins import PIN_LED
 
 pinLED = Pin(PIN_LED, Pin.OUT)
