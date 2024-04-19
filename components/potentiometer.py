@@ -1,6 +1,6 @@
 import machine
 from utime import sleep
-from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer 
+from _convert_reading_pico_potentiometer import convert_reading_pico_potentiometer
 from _constants import PIN_ADC0__31_10b as PIN_ADC0
 
 
@@ -15,4 +15,3 @@ while True:
     except KeyboardInterrupt:
         break
 print("Finished.")
-

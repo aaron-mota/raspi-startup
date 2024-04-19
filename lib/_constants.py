@@ -1,6 +1,6 @@
 PICO = {
-  "VOLTAGE": 3.3,
-  # ...more constants
+    "VOLTAGE": 3.3,
+    # ...more constants
 }
 
 # Full source of truth for given GP pin
@@ -101,13 +101,13 @@ PIN_UART1_TX__26_15b = 2
 PIN_UART1_RX__27_14b = 3
 
 ## OTHER
-PIN_LED = 'LED' # LED (internal component)
-PIN_VBUS__40_1b = False # USB power
-PIN_VSYS__39_2b = False # System power
-PIN_3V3_EN__37_4b = False # 3.3V power (enable)
-PIN_3V3_OUT__36_5b = False # 3.3V power (output)
-PIN_RUN__30_11b = False # Reset (?)
-PIN_GND__3 = False # Ground
+PIN_LED = "LED"  # LED (internal component)
+PIN_VBUS__40_1b = False  # USB power
+PIN_VSYS__39_2b = False  # System power
+PIN_3V3_EN__37_4b = False  # 3.3V power (enable)
+PIN_3V3_OUT__36_5b = False  # 3.3V power (output)
+PIN_RUN__30_11b = False  # Reset (?)
+PIN_GND__3 = False  # Ground
 PIN_GND__8 = False
 PIN_GND__13 = False
 PIN_GND__18 = False
@@ -115,4 +115,3 @@ PIN_GND__23 = False
 PIN_GND__28 = False
 PIN_GND__33 = False
 PIN_GND__38 = False
-
