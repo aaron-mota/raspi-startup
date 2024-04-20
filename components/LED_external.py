@@ -1,6 +1,6 @@
 from machine import Pin
 from utime import sleep
-from _constants import PIN_GP15__20 as PIN_GP15, PIN_LED
+from _pins import PIN_GP15__20 as PIN_GP15, PIN_LED
 
 pinLED = Pin(PIN_LED, Pin.OUT)
 pin15 = Pin(PIN_GP15, Pin.OUT)

@@ -1,5 +1,14 @@
 #  PWM pins (https://www.youtube.com/watch?v=GXA1Y6lA14A&list=PLGs0VKk2DiYz8js1SJog21cDhkBqyAhC5&index=11&ab_channel=PaulMcWhorter)
 
+# Options
+# Pin() # (General Purpose Input/Output) # Digital Input/Output (e.g. button, LED, etc.)
+# ADC() # (Analog Input) # Analog to Digital Converter (e.g. potentiometer, temperature sensor, etc.)
+# PWM() # (Analog Output) # Pulse Width Modulation (e.g. LED brightness, motor speed, etc.)
+# I2C() # (Digital Communication) # Inter-Integrated Circuit (e.g. sensor, display, etc.)
+# SPI() # (Digital Communication) # Serial Peripheral Interface (e.g. sensor, display, etc.)
+# Timer() # (Digital Communication) # Software timer (e.g. blinking LED, etc.)
+
+
 # Full source of truth for given GP pin
 # PIN_GP0__1__SPI0_RX__I2C0_SDA__UART1_TX = 0
 # PIN_GP1__2__SPI0_CSn__I2C0_SCL__UART1_RX = 1
