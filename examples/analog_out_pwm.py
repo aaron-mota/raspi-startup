@@ -42,13 +42,14 @@ while True:
     try:
         valueRaw = potentiometer.read_u16()
         # 1: difficult way (convert raw value to voltage, then convert voltage to pwm)
-        # desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
-        # pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
-        # analogOut.duty_u16(pwmValue)
-        # print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
-        # 2: easy way (convert raw value to pwm directly)
-        analogOut.duty_u16(valueRaw)
-        print("Raw: ", potentiometer.read_u16())
+        desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
+        pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
+        analogOut.duty_u16(pwmValue)
+        print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
+        # # 2: easy way (convert raw value to pwm directly)
+        # # NOTE: HOWEVER, this method is not as accurate as the first method (e.g. lowest input from potentiometer is not 0, it's ~224)
+        # analogOut.duty_u16(valueRaw)
+        # print("Raw: ", potentiometer.read_u16())
 
         sleep(0.5)
     except KeyboardInterrupt:
