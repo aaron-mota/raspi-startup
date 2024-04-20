@@ -5,6 +5,7 @@ from _convert_output_voltage_to_pwm import convert_output_voltage_to_pwm
 
 # from _convert_percentage_to_voltage import convert_percentage_to_voltage
 from _convert_output_pwm_to_voltage import convert_output_pwm_to_voltage
+from _convert_minMax_actual_to_desired import convert_minMax_actual_to_desired
 
 potentiometer = ADC(PIN_ADC0)
 
@@ -38,19 +39,34 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 #     print("Raw: ", desiredPercentage, "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
 
 # EXAMPLE THREE: Setting voltage/pwm via potentiometer-driven input (dimmable LED)
+# while True:
+#     try:
+#         valueRaw = potentiometer.read_u16()
+#         # 1: difficult way (convert raw value to voltage, then convert voltage to pwm)
+#         desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
+#         pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
+#         analogOut.duty_u16(pwmValue)
+#         print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
+#         # # 2: easy way (convert raw value to pwm directly)
+#         # # NOTE: HOWEVER, this method is not as accurate as the first method (e.g. lowest input from potentiometer is not 0, it's ~224)
+#         # analogOut.duty_u16(valueRaw)
+#         # print("Raw: ", potentiometer.read_u16())
+
+#         sleep(0.5)
+#     except KeyboardInterrupt:
+#         break
+
+# EXAMPLE FOUR: Potentiometer-driven input, but using 16 "steps" (2^0 - 2^16)
 while True:
     try:
         valueRaw = potentiometer.read_u16()
-        # 1: difficult way (convert raw value to voltage, then convert voltage to pwm)
-        desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
-        pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
+        exponent = int(convert_minMax_actual_to_desired(0, 65535, 0, 17, valueRaw))
+        # y = 2^x
+        exponent = 16 if exponent == 17 else exponent  # dealing with only being 16 at very end of potentiometer)
+        pwmValue = 2**exponent
         analogOut.duty_u16(pwmValue)
-        print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
-        # # 2: easy way (convert raw value to pwm directly)
-        # # NOTE: HOWEVER, this method is not as accurate as the first method (e.g. lowest input from potentiometer is not 0, it's ~224)
-        # analogOut.duty_u16(valueRaw)
-        # print("Raw: ", potentiometer.read_u16())
+        # print("Raw: ", potentiometer.read_u16(), "exponent: ", exponent, "Converted PWM: ", pwmValue)
 
-        sleep(0.5)
+        sleep(0.1)
     except KeyboardInterrupt:
         break
