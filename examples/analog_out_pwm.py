@@ -1,6 +1,7 @@
 from machine import Pin, PWM, ADC
 from time import sleep
 from _pins import PIN_GP15__20 as PIN_PWM, PIN_ADC0__31_10b as PIN_ADC0
+from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
 from _convert_output_voltage_to_pwm import convert_output_voltage_to_pwm
 
 # from _convert_percentage_to_voltage import convert_percentage_to_voltage
@@ -60,13 +61,12 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 while True:
     try:
         valueRaw = potentiometer.read_u16()
-        scaledValue = convert_minMax_actual_to_desired(0, 65535, 0, 16, valueRaw)
+        scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, 16, valueRaw)
         # y = 2^x (using 16 "steps" from 0 to 16, where 0 = 2^0 and 16 = 2^16)
         exponent = round(scaledValue)
-        pwmValue = 2**exponent
+        pwmValue = 2**exponent if exponent > 0 else 0  # 2^0 = 1... want to be able to turn off LED
         analogOut.duty_u16(pwmValue)
+        # sleep(0.1)
         print("Raw: ", potentiometer.read_u16(), "exponent: ", exponent, "Converted PWM: ", pwmValue)
-
-        sleep(0.1)
     except KeyboardInterrupt:
         break
