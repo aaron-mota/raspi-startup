@@ -7,11 +7,11 @@ from _constants import (
 )
 
 
-def convert_output_pico_potentiometer(value, minOutputDesired=None, maxOutputDesired=None):
+def convert_output_pwm_to_voltage(value, minOutputDesired=MIN_VOLTAGE, maxOutputDesired=MAX_VOLTAGE):
     minOutputActual = MIN_PWM
     maxOutputActual = MAX_PWM
-    minOutputDesired = minOutputDesired or MIN_VOLTAGE
-    maxOutputDesired = maxOutputDesired or MAX_VOLTAGE
+
+    print(minOutputActual, maxOutputActual, minOutputDesired, maxOutputDesired, value)
 
     return convert_minMax_actual_to_desired(
         minOutputActual,

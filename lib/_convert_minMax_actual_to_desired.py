@@ -16,6 +16,8 @@ def convert_minMax_actual_to_desired(
     # y - y1 = m(x - x1)
     y = m * (outputValue) - m * x1 + y1
 
+    print("m", m, "y", y, "outputValue", outputValue)
+
     # handle inaccurate "lowest possible" output value
     if y < minOutputDesired:
         y = minOutputDesired
