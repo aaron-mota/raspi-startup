@@ -11,8 +11,6 @@ def convert_output_pwm_to_voltage(value, minOutputDesired=MIN_VOLTAGE, maxOutput
     minOutputActual = MIN_PWM
     maxOutputActual = MAX_PWM
 
-    print(minOutputActual, maxOutputActual, minOutputDesired, maxOutputDesired, value)
-
     return convert_minMax_actual_to_desired(
         minOutputActual,
         maxOutputActual,
