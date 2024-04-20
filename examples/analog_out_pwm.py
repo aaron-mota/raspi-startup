@@ -37,14 +37,19 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 #     sleep(0.1)
 #     print("Raw: ", desiredPercentage, "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
 
-# EXAMPLE THREE: Setting value via potentiometer
+# EXAMPLE THREE: Setting voltage/pwm via potentiometer-driven input (dimmable LED)
 while True:
     try:
         valueRaw = potentiometer.read_u16()
-        desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
-        pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
-        analogOut.duty_u16(pwmValue)
+        # 1: difficult way (convert raw value to voltage, then convert voltage to pwm)
+        # desiredVoltage = convert_output_pwm_to_voltage(valueRaw)
+        # pwmValue = convert_output_voltage_to_pwm(desiredVoltage)
+        # analogOut.duty_u16(pwmValue)
+        # print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
+        # 2: easy way (convert raw value to pwm directly)
+        analogOut.duty_u16(valueRaw)
+        print("Raw: ", potentiometer.read_u16())
+
         sleep(0.5)
-        print("Raw: ", potentiometer.read_u16(), "Converted V: ", desiredVoltage, "Converted PWM: ", pwmValue)
     except KeyboardInterrupt:
         break
