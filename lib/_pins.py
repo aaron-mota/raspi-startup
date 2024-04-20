@@ -1,3 +1,5 @@
+#  PWM pins (https://www.youtube.com/watch?v=GXA1Y6lA14A&list=PLGs0VKk2DiYz8js1SJog21cDhkBqyAhC5&index=11&ab_channel=PaulMcWhorter)
+
 # Full source of truth for given GP pin
 # PIN_GP0__1__SPI0_RX__I2C0_SDA__UART1_TX = 0
 # PIN_GP1__2__SPI0_CSn__I2C0_SCL__UART1_RX = 1

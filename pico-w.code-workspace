@@ -1,5 +1,5 @@
 {
-	"folders": [
+  "folders": [
 		{
 			"path": "."
 		},
@@ -8,7 +8,7 @@
 			"uri": "pico:"
 		}
 	],
-	"settings": {
-		"python.languageServer": "Pylance",
-	}
+  "settings": {
+    "python.languageServer": "Pylance"
+  }
 }
