@@ -60,12 +60,12 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 while True:
     try:
         valueRaw = potentiometer.read_u16()
-        exponent = int(convert_minMax_actual_to_desired(0, 65535, 0, 17, valueRaw))
-        # y = 2^x
-        exponent = 16 if exponent == 17 else exponent  # dealing with only being 16 at very end of potentiometer)
+        scaledValue = convert_minMax_actual_to_desired(0, 65535, 0, 16, valueRaw)
+        # y = 2^x (using 16 "steps" from 0 to 16, where 0 = 2^0 and 16 = 2^16)
+        exponent = round(scaledValue)
         pwmValue = 2**exponent
         analogOut.duty_u16(pwmValue)
-        # print("Raw: ", potentiometer.read_u16(), "exponent: ", exponent, "Converted PWM: ", pwmValue)
+        print("Raw: ", potentiometer.read_u16(), "exponent: ", exponent, "Converted PWM: ", pwmValue)
 
         sleep(0.1)
     except KeyboardInterrupt:
