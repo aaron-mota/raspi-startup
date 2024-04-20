@@ -57,16 +57,54 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 #     except KeyboardInterrupt:
 #         break
 
-# EXAMPLE FOUR: Potentiometer-driven input, but using 16 "steps" (2^0 - 2^16)
+# # EXAMPLE FOUR: Potentiometer-driven input, but using 16 "steps" (2^0 - 2^16)
+# while True:
+#     try:
+#         valueRaw = potentiometer.read_u16()
+#         scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, 16, valueRaw)
+#         # y = 2^x (using 16 "steps" from 0 to 16, where 0 = 2^0 and 16 = 2^16)
+#         x = round(scaledValue)
+#         pwmValue = 2**x if x > 0 else 0  # 2^0 = 1... want to be able to turn off LED
+#         analogOut.duty_u16(pwmValue)
+#         # sleep(0.1)
+#         print("Raw: ", potentiometer.read_u16(), "x: ", x, "Converted PWM: ", pwmValue)
+#     except KeyboardInterrupt:
+#         break
+
+# # EXAMPLE 5: Potentiometer-driven input, but using X "steps" (linear)
+# # NOTE: not visibly noticable difference in brightness between each step (e.g. at higher values, can't see the LED adjusting with smaller changes in potentiometer)
+# while True:
+#     CONSTANT = (PICO_MAX_PWM - PICO_MIN_PWM_ACTUAL) / 50
+#     STEPS = 50
+
+#     try:
+#         valueRaw = potentiometer.read_u16()
+#         scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, STEPS, valueRaw)
+#         # y = CONSTANT*x
+#         x = round(scaledValue)
+#         pwmValue = round(CONSTANT * x)
+#         analogOut.duty_u16(pwmValue)
+#         # sleep(0.1)
+#         print("Raw: ", potentiometer.read_u16(), "C: ", CONSTANT, "x: ", x, "Converted PWM: ", pwmValue)
+#     except KeyboardInterrupt:
+#         analogOut.duty_u16(0)
+#         break
+
+# EXAMPLE 6: Potentiometer-driven input, but using X "steps" (exponential)
+# NOTE: visibly noticable difference in brightness between each step (e.g. at higher values, can see the LED adjusting with smaller changes in potentiometer)
 while True:
+    STEPS = 50
+    CONSTANT = (PICO_MAX_PWM - PICO_MIN_PWM_ACTUAL) ** (1 / STEPS)
+
     try:
         valueRaw = potentiometer.read_u16()
-        scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, 16, valueRaw)
-        # y = 2^x (using 16 "steps" from 0 to 16, where 0 = 2^0 and 16 = 2^16)
-        exponent = round(scaledValue)
-        pwmValue = 2**exponent if exponent > 0 else 0  # 2^0 = 1... want to be able to turn off LED
+        scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, STEPS, valueRaw)
+        # y = CONSTANT**x
+        x = round(scaledValue)
+        pwmValue = round(CONSTANT**x)
         analogOut.duty_u16(pwmValue)
         # sleep(0.1)
-        print("Raw: ", potentiometer.read_u16(), "exponent: ", exponent, "Converted PWM: ", pwmValue)
+        print("Raw: ", potentiometer.read_u16(), "C: ", CONSTANT, "x: ", x, "Converted PWM: ", pwmValue)
     except KeyboardInterrupt:
+        analogOut.duty_u16(0)
         break
