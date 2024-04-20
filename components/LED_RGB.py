@@ -48,18 +48,48 @@ while True:
         )
 
         # 0 to 100 (scale up/down R/G/B values in between)
-        scaledValueRed = 0
-        scaledValueGreen = 0
-        scaledValueBlue = 0
+        # scaledValueRed = 0
+        # scaledValueGreen = 0
+        # scaledValueBlue = 0
 
-        if scaledValue <= 50:
-            scaledValueRed = 100 - convert_minMax_actual_to_desired(0, 50, 0, 100, scaledValue)
-            scaledValueGreen = convert_minMax_actual_to_desired(0, 50, 0, 100, scaledValue)
-            scaledValueBlue = 0
-        else:
-            scaledValueRed = 0
-            scaledValueGreen = 100 - convert_minMax_actual_to_desired(50, 100, 0, 100, scaledValue)
-            scaledValueBlue = convert_minMax_actual_to_desired(50, 100, 0, 100, scaledValue)
+        # "white" (best combination I've found so far)
+        # https://www.ledsmagazine.com/smart-lighting-iot/color-tuning/article/16695054/understand-rgb-led-mixing-ratios-to-realize-optimal-color-in-signs-and-displays-magazine
+        scaledValueRed = 80  # 53.33%
+        scaledValueGreen = 30  # 20%
+        scaledValueBlue = 40  # 26.67%
+
+        # # Show R, G, B
+        # if scaledValue <= 50:
+        #     scaledValueRed = 100 - convert_minMax_actual_to_desired(0, 50, 0, 100, scaledValue)
+        #     scaledValueGreen = convert_minMax_actual_to_desired(0, 50, 0, 100, scaledValue)
+        #     scaledValueBlue = 0
+        # else:
+        #     scaledValueRed = 0
+        #     scaledValueGreen = 100 - convert_minMax_actual_to_desired(50, 100, 0, 100, scaledValue)
+        #     scaledValueBlue = convert_minMax_actual_to_desired(50, 100, 0, 100, scaledValue)
+
+        # # Show R100, R50/G100/B50 (greenish-white), B100
+        # scaledValueRed = 100 - convert_minMax_actual_to_desired(0, 100, 0, 100, scaledValue)
+        # if scaledValue <= 50:
+        #     scaledValueGreen = convert_minMax_actual_to_desired(0, 50, 0, 100, scaledValue)
+        # else:
+        #     scaledValueGreen = 100 - convert_minMax_actual_to_desired(50, 100, 0, 100, scaledValue)
+        # scaledValueBlue = scaledValue
+
+        #  Show R100/G33, R25/G100/B25 (whitish green), G33/B100
+        # # RED
+        # if scaledValue <= 66:
+        #     scaledValueRed = 100 - convert_minMax_actual_to_desired(0, 66, 0, 100, scaledValue)
+        # # GREEN
+        # if scaledValue <= 50:
+        #     scaledValueGreen = convert_minMax_actual_to_desired(0, 50, 33, 100, scaledValue)
+        # else:
+        #     scaledValueGreen = 100 - 66 * (convert_minMax_actual_to_desired(50, 100, 33, 100, scaledValue) - 33) / (
+        #         100 - 33
+        #     )
+        # # BLUE
+        # if scaledValue >= 33:
+        #     scaledValueBlue = convert_minMax_actual_to_desired(33, 100, 0, 100, scaledValue)
 
         # convert 0-100 to 0-65535
         pwmValueRed = round(convert_minMax_actual_to_desired(0, MAX_DESIRED_VALUE, 0, PICO_MAX_PWM, scaledValueRed))
