@@ -71,16 +71,16 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 #     except KeyboardInterrupt:
 #         break
 
-# # EXAMPLE 5: Potentiometer-driven input, but using X "steps" (linear)
+# # EXAMPLE 5: Potentiometer-driven input, but using X "steps" (LINEAR)
 # # NOTE: not visibly noticable difference in brightness between each step (e.g. at higher values, can't see the LED adjusting with smaller changes in potentiometer)
 # while True:
-#     CONSTANT = (PICO_MAX_PWM - PICO_MIN_PWM_ACTUAL) / 50
 #     STEPS = 50
+#     CONSTANT = (PICO_MAX_PWM - PICO_MIN_PWM_ACTUAL) / STEPS
 
 #     try:
 #         valueRaw = potentiometer.read_u16()
 #         scaledValue = convert_minMax_actual_to_desired(PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM, 0, STEPS, valueRaw)
-#         # y = CONSTANT*x
+#         # y = CONSTANT * x
 #         x = round(scaledValue)
 #         pwmValue = round(CONSTANT * x)
 #         analogOut.duty_u16(pwmValue)
@@ -90,7 +90,7 @@ analogOut.duty_u16(0)  # (0-65535) (0 = 0 V) (65535 = 3.3 V)
 #         analogOut.duty_u16(0)
 #         break
 
-# EXAMPLE 6: Potentiometer-driven input, but using X "steps" (exponential)
+# EXAMPLE 6: Potentiometer-driven input, but using X "steps" (EXPONENTIAL)
 # NOTE: visibly noticable difference in brightness between each step (e.g. at higher values, can see the LED adjusting with smaller changes in potentiometer)
 while True:
     STEPS = 50

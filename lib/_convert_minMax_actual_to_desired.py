@@ -3,7 +3,7 @@ def convert_minMax_actual_to_desired(
     maxOutputActual,
     minOutputDesired,
     maxOutputDesired,
-    outputValue,
+    value,
 ):
     # slope of line (m): (y2 - y1) / (x2 - x1)
     y2 = maxOutputDesired
@@ -14,7 +14,7 @@ def convert_minMax_actual_to_desired(
     # slope of line (m) = (y2 - y1) / (x2 - x1)
     m = (y2 - y1) / (x2 - x1)
     # y - y1 = m(x - x1)
-    y = m * (outputValue) - m * x1 + y1
+    y = m * (value) - m * x1 + y1
 
     # handle inaccurate "lowest possible" output value
     if y < minOutputDesired:
