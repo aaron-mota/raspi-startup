@@ -20,6 +20,7 @@ from _pins import (
 # MPU6050
 # - https://docs.sunfounder.com/projects/ultimate-sensor-kit/en/latest/components_basic/05-component_mpu6050.html
 # - components: 3-axis gyroscope, 3-axis accelerometer
+# - z-axis = 1G (acceleration due to gravity)
 
 
 #################
@@ -48,30 +49,17 @@ try:
         #################
         # (1) GET INPUT
         #################
-        # HARD-CODED
-        # ...
-
-        # HARD-CODED (AUTO TOGGLE)
-        # ...
-
-        # USER INPUT
-        # ...
-
-        # POTENTIOMETER
-        # ...
-
         # MPU
         xAccel, yAccel, zAccel = mpu.accel.xyz
         xGyro, yGyro, zGyro = mpu.gyro.xyz
         print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
-        # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s")
+        # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s       ", end="\r")
 
         #################
         # (2) SET OUTPUT
         #################
 
         sleep(0.1)
-        # print("")
 except KeyboardInterrupt:
     print("Bye!")
 
