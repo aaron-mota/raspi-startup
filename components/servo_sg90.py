@@ -66,6 +66,7 @@ potentiometer = ADC(Pin(PIN_GP26))
 degrees = 0
 try:
     while True:
+        #################
         # (1) GET DEGREES
         #################
         # HARD-CODED
@@ -82,6 +83,7 @@ try:
         pwmValueInput = potentiometer.read_u16()
         degrees = int(round((MAX_DEGREES / PICO_MAX_PWM) * pwmValueInput))  # not sure if this is correct (didn't test it)
 
+        #################
         # (2) SET SERVO
         #################
         pulseWidth = convertDegreesToPulseWidth(degrees)
