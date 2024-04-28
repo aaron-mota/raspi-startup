@@ -2,8 +2,7 @@ import socket
 import utime as time
 import network
 
-
-# Connect to WiFi
+# CONNECT TO WIFI
 wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 
@@ -16,20 +15,18 @@ while not wifi.isconnected():
     time.sleep(1)
 print("Connected to WiFi")
 
-# WiFi Configuration (UDP Server)
-wifiInfo = wifi.ifconfig()
-serverIpAddress = wifiInfo[0]  # may need update this (or make as reserved IP in router (aka static IP))
-print("IP Address (server): ", wifiInfo[0])
-print("UDP Server Up and Waiting...")
-
-SERVER_PORT = 2222  # can be whatever port you want
-BUFFER_SIZE = 1024  # bytes
-
 try:
+    # WIFI CONFIG
+    wifiInfo = wifi.ifconfig()
+    serverIpAddress = wifiInfo[0]  # may need update this (or make as reserved IP in router (aka static IP))
+    print("IP Address (server): ", wifiInfo[0])
+    print("UDP Server Up and Waiting...")
+    SERVER_PORT = 2222  # can be whatever port you want
+    BUFFER_SIZE = 1024  # bytes
     UDPServerSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     UDPServerSocket.bind((serverIpAddress, SERVER_PORT))
 
-    # Receive messages
+    # RECEIVE MESSAGES
     while True:
         clientMessage, clientIpAddress = UDPServerSocket.recvfrom(BUFFER_SIZE)
         messageDecoded = clientMessage.decode("utf-8")
@@ -39,7 +36,6 @@ try:
         dataString = "Message received: " + messageDecoded
         dataStringEncoded = dataString.encode("utf-8")
         UDPServerSocket.sendto(dataStringEncoded, clientIpAddress)
-
 
 except KeyboardInterrupt:
     print("Closing socket...")
