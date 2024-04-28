@@ -1,10 +1,11 @@
-from machine import Pin, PWM, ADC
+from machine import Pin, PWM, ADC, I2C
 from time import sleep
+from imu import MPU6050
 
-# from _pins import (
-# PIN_GP15__20 as PIN_GP15,
-# PIN_GP26__31_10b as PIN_GP26,
-# )
+from _pins import (
+    PIN_GP16__21_20b__SPI0_RX__I2C0_SDA__UART1_TX as PIN_GP16,
+    PIN_GP17__22_19b__SPI0_CSn__I2C0_SCL__UART1_RX as PIN_GP17,
+)
 
 # from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
 
@@ -29,7 +30,14 @@ from time import sleep
 #################
 # SETUP
 #################
+i2c = I2C(0, sda=Pin(PIN_GP16), scl=Pin(PIN_GP17), freq=400000)
+# why freq=400000? - https://docs.micropython.org/en/latest/library/machine.I2C.html
+# - "The frequency parameter is an optional integer giving the I2C clock frequency in Hz. The default is 400kHz."
+# - "The frequency is a maximum value. The actual frequency may be less, depending on the hardware capabilities."
+# - SDA and SCL are the data and clock lines, respectively.
+# - "The I2C bus is a two-wire half-duplex serial bus with a single clock line and a single data line."
 
+mpu = MPU6050(i2c)
 
 #################
 # PROGRAM
@@ -51,6 +59,12 @@ try:
 
         # POTENTIOMETER
         # ...
+
+        # MPU
+        xAccel, yAccel, zAccel = mpu.accel.xyz
+        xGyro, yGyro, zGyro = mpu.gyro.xyz
+        print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
+        # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s")
 
         #################
         # (2) SET OUTPUT
