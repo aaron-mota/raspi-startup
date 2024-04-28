@@ -30,7 +30,7 @@ from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
 #################
 # HELPERS
 #################
-def getWriteValue(pulseWidth: float) -> int:
+def convertPulseWidthToPWMValue(pulseWidth: float) -> int:
     PERIOD = 20
     return int(round(PICO_MAX_PWM * (pulseWidth / PERIOD)))
 
@@ -64,7 +64,7 @@ try:
         result = int(input("Enter degrees (0 to 180): "))
         degrees = result
         pulseWidth = convertDegreesToPulseWidth(degrees)
-        pwmValue = getWriteValue(pulseWidth)
+        pwmValue = convertPulseWidthToPWMValue(pulseWidth)
         print(f"degrees: {degrees}, pulseWidth: {pulseWidth}, pwmValue: {pwmValue}")
         servo.duty_u16(pwmValue)
         sleep(2)
