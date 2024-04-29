@@ -1,5 +1,5 @@
 from machine import Pin, PWM, ADC, I2C
-from time import sleep
+import time
 from imu import MPU6050
 import math
 
@@ -50,8 +50,21 @@ mpu = MPU6050(i2c)
 # PROGRAM
 #################
 
+## CONFIG (GYROSCOPE)
+tLoop = 0  # seconds
+roll = 0
+pitch = 0
+yaw = 0
+count = 0
+
+
 try:
     while True:
+        #################
+        # (0) CONFIG
+        #################
+        tStart = time.ticks_ms()
+
         #################
         # (1) GET INPUT
         #################
@@ -59,11 +72,12 @@ try:
 
         # ACCELERATION
         ###################
-        xAccel, yAccel, zAccel = mpu.accel.xyz
+        # xAccel, yAccel, zAccel = mpu.accel.xyz
         # print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
 
         # TILT (PITCH, ROLL) (from acceleration) (normal/perpendicular vector to gravity)
         # https://youtu.be/GWYy121rAOE?si=eB_4Iv7L3K199ZA_&t=666
+
         # (1) General Tilt
         # tilt = getTiltDegreesFromAcceleration(float(zAccel))  # pitch or roll
         # print(f"(Tilt) Pitch: {tilt} deg      ", end="\r")
@@ -71,22 +85,39 @@ try:
         # (2) Pitch & Roll
         # can use a "low pass filter" to smooth out the values (noise vs real signals; trade-off = responsiveness)
         # - e.g. confidenceSensor, confidenceHistoricalData (https://youtu.be/3YqGIg4crEk?si=EaJhBTlsz5ivz3NY)
-        tiltPitch = getTiltDegreesFromAccelerationPitchRoll(yAccel, zAccel, 2)  # pitch or roll
-        tiltRoll = getTiltDegreesFromAccelerationPitchRoll(xAccel, zAccel, 2)  # pitch or roll
-        print(f"(Tilt) Pitch: {tiltPitch} deg, Roll: {tiltRoll} deg      ", end="\r")
+        # tiltPitch = getTiltDegreesFromAccelerationPitchRoll(yAccel, zAccel, 2)  # pitch or roll
+        # tiltRoll = getTiltDegreesFromAccelerationPitchRoll(xAccel, zAccel, 2)  # pitch or roll
+        # print(f"(Tilt) Pitch: {tiltPitch} deg, Roll: {tiltRoll} deg      ", end="\r")
 
         # GYROSCOPE
         ###################
         # - ...acceleration = isn't great for rotation (e.g. errors d/t vibration, horizontal acceleration, etc.)
         # - angular velocity & angle (https://youtu.be/XZIJasvCB44?si=cOIpMg6zKyIsLh_1&t=473)
-        # xGyro, yGyro, zGyro = mpu.gyro.xyz
+        # -...gyroscope = "drift" problem
+
+        xGyro, yGyro, zGyro = mpu.gyro.xyz
+        # roll = roll + xGyro * tLoop
+        # pitch = pitch + yGyro * tLoop
+        roll = roll + yGyro * tLoop
+        pitch = pitch + xGyro * tLoop
+        yaw = yaw + zGyro * tLoop
         # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s       ", end="\r")
 
         #################
         # (2) SET OUTPUT
         #################
 
-        sleep(0.1)
+        #################
+        # (final) CONFIG
+        #################
+        count += 1
+        if count % 50 == 0:
+            print(f"Pitch: {pitch} deg, Roll: {roll} deg, Yaw: {yaw} deg/s")
+
+        tEnd = time.ticks_ms()
+        tLoop = time.ticks_diff(tEnd, tStart) / 1000
+
+        time.sleep(0.02)
 except KeyboardInterrupt:
     print("Bye!")
 
