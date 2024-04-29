@@ -1,10 +1,15 @@
 from machine import Pin, PWM, ADC, I2C
 from time import sleep
 from imu import MPU6050
+import math
 
 from _pins import (
     PIN_GP16__21_20b__SPI0_RX__I2C0_SDA__UART1_TX as PIN_GP16,
     PIN_GP17__22_19b__SPI0_CSn__I2C0_SCL__UART1_RX as PIN_GP17,
+)
+
+from _trigonometry import (
+    getTiltDegreesFromAcceleration,
 )
 
 # from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
@@ -50,9 +55,20 @@ try:
         # (1) GET INPUT
         #################
         # MPU
+
+        # ACCELERATION
         xAccel, yAccel, zAccel = mpu.accel.xyz
-        xGyro, yGyro, zGyro = mpu.gyro.xyz
-        print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
+        # print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
+
+        # TILT (PITCH, ROLL) (from acceleration) (normal/perpendicular vector to gravity)
+        # https://youtu.be/GWYy121rAOE?si=eB_4Iv7L3K199ZA_&t=666
+        tiltRoll = getTiltDegreesFromAcceleration(float(zAccel))
+        tiltPitch = getTiltDegreesFromAcceleration(float(yAccel), 0.0)
+
+        print(f"(Tilt) Roll: {tiltRoll} deg, Pitch: {tiltPitch} deg      ", end="\r")
+
+        # GYROSCOPE
+        # xGyro, yGyro, zGyro = mpu.gyro.xyz
         # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s       ", end="\r")
 
         #################

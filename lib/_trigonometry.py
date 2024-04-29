@@ -16,6 +16,8 @@ import math
 # r = sqrt(x^2 + y^2)
 # theta = atan(y / x)
 
+ACCELERATION_DUE_TO_GRAVITY_G = 1.0
+
 
 def convertDegreesToRadians(degrees: float) -> float:
     return degrees / 360 * (2 * math.pi)
@@ -71,3 +73,21 @@ def getThetaDegreesFromX(x: float) -> float:
 def getThetaDegreesFromY(y: float) -> float:
     radians = math.asin(y)
     return convertRadiansToDegrees(radians)
+
+
+def getThetaDegreesFromAcceleration(reading: float, constant=ACCELERATION_DUE_TO_GRAVITY_G) -> float:
+    radians = 0.0
+
+    reading = max(min(1.0, reading), -1.0)
+    multiplier = 1 if reading >= 0 else -1
+
+    if constant == 0:
+        radians = math.atan(reading)
+    else:
+        adjacentOverHypotenuse = reading / constant
+        radians = math.acos(adjacentOverHypotenuse)
+    return convertRadiansToDegrees(radians) * multiplier
+
+
+def getTiltDegreesFromAcceleration(reading: float, constant=ACCELERATION_DUE_TO_GRAVITY_G) -> float:
+    return getThetaDegreesFromAcceleration(reading, constant)
