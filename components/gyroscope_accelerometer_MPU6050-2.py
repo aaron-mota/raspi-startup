@@ -45,19 +45,25 @@ while True:
     rollG = rollG + yGyro * tLoop
     pitchG = pitchG + xGyro * tLoop
 
+    # COMPLIMENTARY FILTER
     rollCompRaw = (rollA * UNFILTERED) + (COMPLIMENTARY_FILTER * (rollComp + yGyro * tLoop) + errorR * UNFILTERED)
     pitchCompRaw = (pitchA * UNFILTERED) + (COMPLIMENTARY_FILTER * (pitchComp + xGyro * tLoop) + errorP * UNFILTERED)
-
     rollComp = rollCompRaw if abs(rollCompRaw) > EFFECTIVE_ZERO_TILT else 0
     pitchComp = pitchCompRaw if abs(pitchCompRaw) > EFFECTIVE_ZERO_TILT else 0
 
-    errorP = errorP + (pitchA - pitchComp) * tLoop
-    errorR = errorR + (rollA - rollComp) * tLoop
+    # ERROR
+    errorRRaw = errorR + (rollA - rollComp) * tLoop
+    errorPRaw = errorP + (pitchA - pitchComp) * tLoop
+    errorR = errorRRaw if rollComp != 0 else 0
+    errorP = errorPRaw if pitchComp != 0 else 0
 
+    # PRINTING
     cnt = cnt + 1
     if cnt == 10:
         cnt = 0
         print("RA: ", rollA, "PA: ", pitchA, "RC: ", rollComp, "PC: ", pitchComp)
         # print('RA: ',rollA,'RC: ',rollComp)
+
+    # FINISH LOOP
     tStop = time.ticks_ms()
     tLoop = (tStop - tStart) * 0.001
