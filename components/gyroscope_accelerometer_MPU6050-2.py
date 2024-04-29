@@ -24,6 +24,7 @@ cnt = 0
 
 COMPLIMENTARY_FILTER = 0.995
 UNFILTERED = 0.005
+EFFECTIVE_ZERO_TILT = 0.2
 
 while True:
     tStart = time.ticks_ms()
@@ -33,19 +34,22 @@ while True:
     yAccel = mpu.accel.y
     zAccel = mpu.accel.z
 
-    rollA = convertRadiansToDegrees(math.atan(xAccel / zAccel))
-    pitchA = convertRadiansToDegrees(math.atan(yAccel / zAccel))
+    rollA = -convertRadiansToDegrees(math.atan(xAccel / zAccel), 2)
+    pitchA = convertRadiansToDegrees(math.atan(yAccel / zAccel), 2)
 
     # GYROSCOPE
     xGyro = mpu.gyro.x
-    yGyro = -mpu.gyro.y
+    yGyro = mpu.gyro.y
     zGyro = mpu.gyro.z
 
     rollG = rollG + yGyro * tLoop
     pitchG = pitchG + xGyro * tLoop
 
-    rollComp = (rollA * UNFILTERED) + (COMPLIMENTARY_FILTER * (rollComp + yGyro * tLoop) + errorR * UNFILTERED)
-    pitchComp = (pitchA * UNFILTERED) + (COMPLIMENTARY_FILTER * (pitchComp + xGyro * tLoop) + errorP * UNFILTERED)
+    rollCompRaw = (rollA * UNFILTERED) + (COMPLIMENTARY_FILTER * (rollComp + yGyro * tLoop) + errorR * UNFILTERED)
+    pitchCompRaw = (pitchA * UNFILTERED) + (COMPLIMENTARY_FILTER * (pitchComp + xGyro * tLoop) + errorP * UNFILTERED)
+
+    rollComp = rollCompRaw if abs(rollCompRaw) > EFFECTIVE_ZERO_TILT else 0
+    pitchComp = pitchCompRaw if abs(pitchCompRaw) > EFFECTIVE_ZERO_TILT else 0
 
     errorP = errorP + (pitchA - pitchComp) * tLoop
     errorR = errorR + (rollA - rollComp) * tLoop
