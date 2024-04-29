@@ -105,7 +105,7 @@ def getTiltDegreesFromAccelerationPitchRoll(
     readingZ = max(min(1.0, readingZ), -1.0)
 
     oppositeOverHypotenuse = reading / readingZ
-    # oppositeOverHypotenuse = reading / readingZ if readingZ != 0 else reading / 1
+    # oppositeOverHypotenuse = reading / readingZ if readingZ != 0 else reading / 1 # handle divide by zero
     radians = math.atan(oppositeOverHypotenuse)
 
     return convertRadiansToDegrees(radians, minimumTilt)
