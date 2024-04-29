@@ -23,8 +23,9 @@ def convertDegreesToRadians(degrees: float) -> float:
     return degrees / 360 * (2 * math.pi)
 
 
-def convertRadiansToDegrees(radians: float) -> float:
-    return radians / (2 * math.pi) * 360
+def convertRadiansToDegrees(radians: float, minimumTilt=0) -> float:
+    degrees = radians / (2 * math.pi) * 360
+    return degrees if abs(degrees) >= minimumTilt else 0
 
 
 def getXYFromThetaDegrees(degrees: float, r=1) -> tuple:
@@ -75,19 +76,51 @@ def getThetaDegreesFromY(y: float) -> float:
     return convertRadiansToDegrees(radians)
 
 
-def getThetaDegreesFromAcceleration(reading: float, constant=ACCELERATION_DUE_TO_GRAVITY_G) -> float:
+###
+
+
+def getTiltDegreesFromAcceleration(
+    reading: float,
+    minimumTilt=0,
+) -> float:
+    CONSTANT = ACCELERATION_DUE_TO_GRAVITY_G
     radians = 0.0
 
     reading = max(min(1.0, reading), -1.0)
-    multiplier = 1 if reading >= 0 else -1
 
-    if constant == 0:
-        radians = math.atan(reading)
-    else:
-        adjacentOverHypotenuse = reading / constant
-        radians = math.acos(adjacentOverHypotenuse)
-    return convertRadiansToDegrees(radians) * multiplier
+    adjacentOverHypotenuse = reading / CONSTANT
+    radians = math.acos(adjacentOverHypotenuse)
+
+    return convertRadiansToDegrees(radians, minimumTilt)
 
 
-def getTiltDegreesFromAcceleration(reading: float, constant=ACCELERATION_DUE_TO_GRAVITY_G) -> float:
-    return getThetaDegreesFromAcceleration(reading, constant)
+def getTiltDegreesFromAccelerationPitch(
+    reading: float,
+    readingZ: float,
+    minimumTilt=0,
+) -> float:
+    radians = 0.0
+
+    reading = max(min(1.0, reading), -1.0)
+    readingZ = max(min(1.0, readingZ), -1.0)
+
+    oppositeOverHypotenuse = reading / readingZ
+    # oppositeOverHypotenuse = reading / readingZ if readingZ != 0 else reading / 1
+    radians = math.atan(oppositeOverHypotenuse)
+
+    return convertRadiansToDegrees(radians, minimumTilt)
+
+
+# def getTiltDegreesFromAccelerationRoll(
+#     reading: float,
+# ) -> float:
+#     CONSTANT = ACCELERATION_DUE_TO_GRAVITY_G
+#     radians = 0.0
+#     multiplier = 1 if reading >= 0 else -1
+
+#     reading = max(min(1.0, reading), -1.0)
+
+#     adjacentOverHypotenuse = reading / CONSTANT
+#     radians = math.atan(adjacentOverHypotenuse) * multiplier
+
+#     return convertRadiansToDegrees(radians)

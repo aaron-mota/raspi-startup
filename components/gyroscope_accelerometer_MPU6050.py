@@ -10,6 +10,7 @@ from _pins import (
 
 from _trigonometry import (
     getTiltDegreesFromAcceleration,
+    getTiltDegreesFromAccelerationPitch,
 )
 
 # from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
@@ -62,10 +63,16 @@ try:
 
         # TILT (PITCH, ROLL) (from acceleration) (normal/perpendicular vector to gravity)
         # https://youtu.be/GWYy121rAOE?si=eB_4Iv7L3K199ZA_&t=666
-        tiltRoll = getTiltDegreesFromAcceleration(float(zAccel))
-        tiltPitch = getTiltDegreesFromAcceleration(float(yAccel), 0.0)
+        # General Tilt
+        # tilt = getTiltDegreesFromAcceleration(float(zAccel))  # pitch or roll
+        # print(f"(Tilt) Pitch: {tilt} deg      ", end="\r")
 
-        print(f"(Tilt) Roll: {tiltRoll} deg, Pitch: {tiltPitch} deg      ", end="\r")
+        # Pitch & Roll
+        tiltPitch = getTiltDegreesFromAccelerationPitch(yAccel, zAccel, 2)  # pitch or roll
+        # print(f"(Tilt) Pitch: {tiltPitch} deg      ")
+        # print(f"(Tilt) Pitch: {tiltPitch} deg      ", end="\r")
+        tiltRoll = getTiltDegreesFromAccelerationPitch(xAccel, zAccel, 2)  # pitch or roll
+        print(f"(Tilt) Pitch: {tiltPitch} deg, Roll: {tiltRoll} deg      ", end="\r")
 
         # GYROSCOPE
         # xGyro, yGyro, zGyro = mpu.gyro.xyz
