@@ -94,7 +94,7 @@ def getTiltDegreesFromAcceleration(
     return convertRadiansToDegrees(radians, minimumTilt)
 
 
-def getTiltDegreesFromAccelerationPitch(
+def getTiltDegreesFromAccelerationPitchRoll(
     reading: float,
     readingZ: float,
     minimumTilt=0,

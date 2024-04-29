@@ -10,7 +10,7 @@ from _pins import (
 
 from _trigonometry import (
     getTiltDegreesFromAcceleration,
-    getTiltDegreesFromAccelerationPitch,
+    getTiltDegreesFromAccelerationPitchRoll,
 )
 
 # from _constants import PICO_MIN_PWM_ACTUAL, PICO_MAX_PWM
@@ -58,6 +58,7 @@ try:
         # MPU
 
         # ACCELERATION
+        ###################
         xAccel, yAccel, zAccel = mpu.accel.xyz
         # print(f"(Acceleration) x: {xAccel} G, y: {yAccel} G, z: {zAccel} G         ", end="\r")
 
@@ -68,13 +69,12 @@ try:
         # print(f"(Tilt) Pitch: {tilt} deg      ", end="\r")
 
         # Pitch & Roll
-        tiltPitch = getTiltDegreesFromAccelerationPitch(yAccel, zAccel, 2)  # pitch or roll
-        # print(f"(Tilt) Pitch: {tiltPitch} deg      ")
-        # print(f"(Tilt) Pitch: {tiltPitch} deg      ", end="\r")
-        tiltRoll = getTiltDegreesFromAccelerationPitch(xAccel, zAccel, 2)  # pitch or roll
+        tiltPitch = getTiltDegreesFromAccelerationPitchRoll(yAccel, zAccel, 2)  # pitch or roll
+        tiltRoll = getTiltDegreesFromAccelerationPitchRoll(xAccel, zAccel, 2)  # pitch or roll
         print(f"(Tilt) Pitch: {tiltPitch} deg, Roll: {tiltRoll} deg      ", end="\r")
 
         # GYROSCOPE
+        ###################
         # xGyro, yGyro, zGyro = mpu.gyro.xyz
         # print(f"(Gyroscope) x: {xGyro} deg/s, y: {yGyro} deg/s, z: {zGyro} deg/s       ", end="\r")
 
